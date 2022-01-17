@@ -28,31 +28,62 @@ const WordList = () => {
 
     // const [words, setWords] = useState({...wordList});
     const [words, setWords] = useState(wordList);
-    const [randomWords, setRandomWords] = useState(wordList.sort(()=> Math.random() -0.5));
+    const [randomWords, setRandomWords] = useState([...wordList].sort(()=> Math.random() -0.5));
     // const words = word.split(' ');
     // console.log(words);
- 
-    let num = 0;
-
+    const [num, setNum] = useState(0);
+    
     const isOrder = (idx) => {
+        
+        //idx 올리기
+        console.log(num);
+        console.log(randomWords[idx],words[num])
+        
+        if(randomWords[idx] === words[num]){
+       
+            // setWords(words.filter((item, idx) => 
+            //     words[num] !== randomWords[idx]
+            // ));
+            //console.log(randomWords[idx], words[num]);
+            //console.log(randomWords.splice(idx, 1));
+       
+            //자르기
+            setRandomWords(randomWords.filter((item, idx) => 
+                words[num] !== randomWords[idx]
+            ));
+            console.log('+');
+            setNum((prev) => prev+1);
+            console.log('num', num);
+            //setRandomWords(randomWords);
+        }else{
+            console.warn('다시');
+        }
 
         console.warn(idx);
-        // idx === num ? num++ : console.warn('다시');
+        /*
         if(idx === num){
             //words.slice(-1);
-            // setValid('none')
-
             //정답일 경우 체크하기
-            setWords(words.filter((item, idx) => num !== idx));
+            setWords(words.filter((item, idx) => 
+            // num !== idx
+                words[num] !== randomWords[idx]
+            ));
             //setWords(words[idx] === idx)
             num++; 
         }else{
             //modal 창 만들기
             console.warn('다시');
+            
+        setWords(words.filter((item, idx) => 
+        // num !== idx
+            words[num] !== randomWords[idx]      
+        ));
+
         }
         // if(num===23){
         //     console.warn('통과');
         // }
+        */
     }
 
     useEffect(() => {
@@ -60,7 +91,7 @@ const WordList = () => {
         words.length === 0  && console.warn('통과');
     }, [words]);
 
-    const WordComponent = words.map((item, idx) => {         
+    const WordComponent = randomWords.map((item, idx) => {         
         return(
 
                 <TouchableOpacity style={styles.txtBox} onPress={()=> isOrder(idx)} key={item+idx}>
